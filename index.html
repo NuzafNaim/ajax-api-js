@@ -3,10 +3,63 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="css/main.css" />
+    <!--<link rel="stylesheet" href="css/main.css" />-->
+    <link rel="stylesheet" href="css/milligram.css" />
     <title>Ajax API JS</title>
   </head>
   <body>
+    <table>
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Qty</th>
+          <th>Total Price</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="itemList"></tbody>
+    </table>
+
     <script src="js/axios.min.js"></script>
+    <script>
+      async function getList() {
+        let res = await axios.get(
+          "https://crud.teamrabbil.com/api/v1/ReadProduct"
+        );
+
+        if (res.status == 200) {
+          let list = res.data["data"];
+          list.forEach((item) => {
+            document.getElementById("itemList").innerHTML += `
+                <tr>
+                    <td><img src="${item["Img"]}" hight="40px" width="40px"></td>
+                    <td>${item["ProductCode"]}</td>
+                    <td>${item["ProductName"]}</td>
+                    <td>${item["Qty"]}</td>
+                    <td>${item["TotalPrice"]}</td>
+                    <td><button>Update</button><button onclick="deleteItem('${item["_id"]}')">Delete</button></td>
+                </tr>
+                `;
+          });
+        } else {
+          console.log("Error");
+        }
+      }
+      getList();
+
+      async function deleteItem(id) {
+        let res = await axios.get(
+          `https://crud.teamrabbil.com/api/v1/DeleteProduc/${id}`
+        );
+        if (res.status == 200) {
+          alert("Delete Successful");
+          location.reload();
+        } else {
+          alert("Error");
+        }
+      }
+    </script>
   </body>
 </html>
