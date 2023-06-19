@@ -8,6 +8,7 @@
     <title>Ajax API JS</title>
   </head>
   <body>
+    <button onclick="window.location.href=('create.html')">Add Product</button>
     <table>
       <thead>
         <tr>
@@ -52,14 +53,17 @@
       getList();
 
       async function deleteItem(id) {
-        let res = await axios.get(
-          `https://crud.teamrabbil.com/api/v1/DeleteProduct/${id}`
-        );
-        if (res.status == 200) {
-          alert("Delete Successful");
-          location.reload();
-        } else {
-          alert("Error");
+        if (confirm("Are you sure you want to delete?")) {
+          let res = await axios.get(
+            `https://crud.teamrabbil.com/api/v1/DeleteProduct/${id}`
+          );
+          if (res.status == 200) {
+            alert("Delete Successful");
+            document.getElementById("itemList").innerHTML = "";
+            getList();
+          } else {
+            alert("Error");
+          }
         }
       }
 

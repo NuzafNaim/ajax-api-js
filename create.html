@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--<link rel="stylesheet" href="css/main.css" />-->
+    <link rel="stylesheet" href="css/milligram.css" />
+    <title>Create New Product</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="raw">
+        <label>Product Image</label>
+        <input type="text" placeholder="Product Image" id="Img" />
+        <label>Product Code</label>
+        <input type="text" placeholder="Product Code" id="ProductCode" />
+        <label>Product Name</label>
+        <input type="text" placeholder="Product Name" id="ProductName" />
+        <label>Product Qty</label>
+        <input type="text" placeholder="Product Qty" id="Qty" />
+        <label>Total Price</label>
+        <input type="text" placeholder="Total Price" id="TotalPrice" />
+        <button onclick="addItem()" type="submit">Add Product</button>
+      </div>
+    </div>
+    <script src="js/axios.min.js"></script>
+    <script>
+      async function addItem() {
+        let Img = document.getElementById("Img").value;
+        let ProductCode = document.getElementById("ProductCode").value;
+        let ProductName = document.getElementById("ProductName").value;
+        let Qty = document.getElementById("Qty").value;
+        let TotalPrice = document.getElementById("TotalPrice").value;
+
+        let addOBJ = {
+          Img: Img,
+          ProductCode: ProductCode,
+          ProductName: ProductName,
+          Qty: Qty,
+          TotalPrice: TotalPrice,
+        };
+        let res = await axios.post(
+          "https://crud.teamrabbil.com/api/v1/CreateProduct",
+          addOBJ
+        );
+
+        if (res.status == 200) {
+          alert("Product Added");
+          window.location.href = "index.html";
+        } else {
+          alert("Error");
+        }
+      }
+    </script>
+  </body>
+</html>
