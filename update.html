@@ -25,10 +25,9 @@
     </div>
     <script src="js/axios.min.js"></script>
     <script>
+      const queryString = new URLSearchParams(window.location.search);
+      const id = queryString.get("id");
       async function fillExData() {
-        const queryString = new URLSearchParams(window.location.search);
-        const id = queryString.get("id");
-
         let res = await axios.get(
           `https://crud.teamrabbil.com/api/v1/ReadProductByID/${id}`
         );
@@ -46,30 +45,29 @@
       fillExData();
 
       async function updateItem() {
-        let productID = document.getElementById("_id").value;
-        let Imge = document.getElementById("Img").value;
+        let Img = document.getElementById("Img").value;
         let ProductCode = document.getElementById("ProductCode").value;
         let ProductName = document.getElementById("ProductName").value;
         let Qty = document.getElementById("Qty").value;
         let TotalPrice = document.getElementById("TotalPrice").value;
 
         let updateOBJ = {
-          productID: _id,
-          Imge: Img,
+          Img: Img,
           ProductCode: ProductCode,
           ProductName: ProductName,
           Qty: Qty,
           TotalPrice: TotalPrice,
         };
         let res = await axios.post(
-          `https://crud.teamrabbil.com/api/v1/UpdateProduct/${productID},updateOBJ`
+          `https://crud.teamrabbil.com/api/v1/UpdateProduct/${id}`,
+          updateOBJ
         );
 
         if (res.status == 200) {
-          alart("Updated");
+          alert("Updated");
           window.location.href = "index.html";
         } else {
-          alart("Error");
+          alert("Error");
         }
       }
     </script>
